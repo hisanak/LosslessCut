@@ -14,6 +14,19 @@ namespace LosslessCut
         /// </summary>
         public const char Delimiter = '\t';
 
+        private string ffmpeg = "ffmpeg.exe";
+        public string FFmpeg {
+            get { return ffmpeg; }
+            set { ffmpeg = value; }
+        }
+
+        private string old = "";
+        public string Old {
+            get { return old; }
+            set { old = value; }
+        }
+
+
         /// <summary>
         /// 設定ファイルパス取得
         /// </summary>

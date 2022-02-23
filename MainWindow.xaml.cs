@@ -18,8 +18,8 @@ namespace LosslessCut
         public MainWindow()
         {
             InitializeComponent();
-            TextBoxInput.AddHandler(TextBox.DragOverEvent, new DragEventHandler(InputFile_DragOver), true);
-            TextBoxInput.AddHandler(TextBox.DropEvent, new DragEventHandler(InputFile_Drop), true);
+            ButtonInput.AddHandler(TextBox.DragOverEvent, new DragEventHandler(InputFile_DragOver), true);
+            ButtonInput.AddHandler(TextBox.DropEvent, new DragEventHandler(InputFile_Drop), true);
             AddHotKeys();
         }
 
@@ -61,20 +61,22 @@ namespace LosslessCut
         /// <summary>
         /// Save Config into a File
         /// </summary>
-        private void SaveConfig(string value)
+        private void SaveConfig()
         {
             string cfgFilePath = _cfg.GetPath();
             using (StreamWriter sw = new StreamWriter(cfgFilePath, false, Encoding.UTF8))
             {
-                sw.WriteLine(value);
+                sw.WriteLine($"FFmpegPath\t{_cfg.FFmpeg}");
+                sw.WriteLine($"OldPath\t{_cfg.Old}");
             }
         }
 
         /// <summary>
         /// Set FFmpeg Path
         /// </summary>
-        private void SetPath(String path)
+        private void SetPath(string path)
         {
+            _cfg.FFmpeg = path;
             TextBoxFfmpeg.Text = path;
         }
 
@@ -88,8 +90,8 @@ namespace LosslessCut
             // Create Setting File if NOT Exists
             if (!System.IO.File.Exists(cfgFilePath))
             {
-                SaveConfig("Path\tffmpeg.exe");
                 SetPath("ffmpeg.exe");
+                SaveConfig();
                 return;
             }
 
@@ -102,9 +104,13 @@ namespace LosslessCut
                     // Ignore
                     continue;
                 }
-                if (item[0] == "Path")
+                if (item[0] == "FFmpegPath")
                 {
                     SetPath(item[1]);
+                }
+                else if (item[0] == "OldPath")
+                {
+                    _cfg.Old = item[1];
                 }
             }
         }
@@ -122,8 +128,43 @@ namespace LosslessCut
             dlg.FilterIndex = 0;
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                SaveConfig($"Path\t{dlg.FileName}");
                 SetPath(dlg.FileName);
+                SaveConfig();
+            }
+        }
+
+        private void SetInput(string filename)
+        {
+            if (ButtonInput.Content.GetType() == typeof(string) && ButtonInput.Content as string == filename)
+            {
+                return;
+            }
+            ButtonInput.Content = filename;
+            ShowLog(filename + "を読み込みました");
+            var str = System.IO.Path.GetDirectoryName(filename);
+            if (str is not null)
+            {
+                _cfg.Old = str;
+            }
+            SaveConfig();
+        }
+
+        /// <summary>
+        /// Browse Input File
+        /// </summary>
+        private void BrowseInput(object sender, RoutedEventArgs e)
+        {
+            var dlg = new System.Windows.Forms.OpenFileDialog();
+            dlg.FileName = "";
+            dlg.Filter = "すべてのファイル (*.*)|*.*";
+            dlg.Title = "入力ファイルを開く";
+            if (System.IO.File.Exists(_cfg.Old)) {
+                dlg.InitialDirectory = _cfg.Old;
+            }
+            dlg.FilterIndex = 0;
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                SetInput(dlg.FileName);
             }
         }
 
@@ -137,11 +178,7 @@ namespace LosslessCut
                 var fileNames = (string[])e.Data.GetData(DataFormats.FileDrop);
                 if (fileNames is not null)
                 {
-                    if (TextBoxInput.Text != fileNames[0])
-                    {
-                        TextBoxInput.Text = fileNames[0];
-                        ShowLog(fileNames[0] + "を読み込みました");
-                    }
+                    SetInput(fileNames[0]);
                 }
                 LosslessMainWindow.Activate();
             }
@@ -168,11 +205,12 @@ namespace LosslessCut
         /// </summary>
         private void CutMovie(object sender, RoutedEventArgs e)
         {
-            if (System.IO.File.Exists(TextBoxInput.Text))
+            string inputFile = ButtonInput.Content as string;
+            if (System.IO.File.Exists(inputFile))
             {
-                var dir = System.IO.Path.GetDirectoryName(TextBoxInput.Text);
-                var filename = System.IO.Path.GetFileName(TextBoxInput.Text);
-                var ext = System.IO.Path.GetExtension(TextBoxInput.Text);
+                var dir = System.IO.Path.GetDirectoryName(inputFile);
+                var filename = System.IO.Path.GetFileName(inputFile);
+                var ext = System.IO.Path.GetExtension(inputFile);
                 if (ext is not null)
                 {
                     int place = filename.LastIndexOf(ext);
@@ -194,7 +232,7 @@ namespace LosslessCut
                 if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     TimeSpan len = TimeSpan.Parse(MaskedTextBoxEnd.Text + "0") - TimeSpan.Parse(MaskedTextBoxStart.Text + "0");
-                    string strCmdText= @$"-y -ss {MaskedTextBoxStart.Text} -t {len.ToString()} -i {TextBoxInput.Text} -c:v copy -c:a copy -async 1 {dir}\{filename}";
+                    string strCmdText= @$"-y -ss {MaskedTextBoxStart.Text} -t {len.ToString()} -i {ButtonInput.Content} -c:v copy -c:a copy -async 1 {dir}\{filename}";
                     System.Diagnostics.Process.Start(TextBoxFfmpeg.Text, strCmdText);
                     ShowLog($"{filename}に保存しました");
                 }

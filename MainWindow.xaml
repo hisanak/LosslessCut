@@ -50,12 +50,12 @@
                 Grid.Row="0" Grid.Column="2" IsTabStop="false"
                 Click="BrowseFfmpeg" Content="FFmpegを指定する" />
 
-        <TextBox Height="200" HorizontalAlignment="Center" VerticalAlignment="Center"
-                Width="{Binding ElementName=Container,Path=ActualWidth}" IsTabStop="false"
-                Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" IsReadOnly="True"
+        <Button Height="200" HorizontalAlignment="Center" VerticalAlignment="Center"
+                Width="{Binding ElementName=Container,Path=ActualWidth}"
+                Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
                 AllowDrop="True" Drop="InputFile_Drop" DragOver="InputFile_DragOver"
-                TextAlignment="Center" TextWrapping="Wrap" VerticalContentAlignment="Center"
-                Name="TextBoxInput" Text="ここに動画ファイルをドラッグ &amp; ドロップ\nDrag &amp; Drop a Video/Audio File Here" />
+                Click="BrowseInput"
+                Name="ButtonInput" Content="ここに動画ファイルをドラッグ &amp; ドロップ\r\nもしくはクリックしてファイルを開く" />
 
         <Label Height="24" HorizontalAlignment="Left" VerticalAlignment="Center" Name="LabelStart"
                 Grid.Row="2" Grid.Column="0"
