@@ -1,7 +1,7 @@
 # LosslessCut
-This Program just calls FFmpeg command line tool like below:
-`$ ffmpeg -ss 00:00:00 -t 00:10:00 -i input.mp4 -c:v copy -c:a copy -async 1 output.mp4`
-cutting a video/audio file without loss and encoding time.
+This Program just calls FFmpeg command line tool like below:  
+`$ ffmpeg -ss 00:00:00 -t 00:10:00 -i input.mp4 -c:v copy -c:a copy -async 1 output.mp4`  
+cutting a video/audio file without loss and encoding time.  
 
 ![](./gui.PNG)
 
