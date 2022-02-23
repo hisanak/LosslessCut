@@ -66,13 +66,15 @@
         
         <WindowsFormsHost Height="24" HorizontalAlignment="Center" VerticalAlignment="Center" Name="TextBoxStart"
                 Width="150"
-                Grid.Row="3" Grid.Column="0">
-            <wf:MaskedTextBox x:Name="MaskedTextBoxStart" Mask="00:00:00.000" TextAlign="Center" Text="00:00:00.000" />
+                Grid.Row="3" Grid.Column="0"> <!--GotKeyboardFocus="MaskedTextBox_GotKeyboardFocus"-->
+            <wf:MaskedTextBox x:Name="MaskedTextBoxStart" Mask="00:00:00.000" TextAlign="Center" Text=""
+                         />
         </WindowsFormsHost>
         <WindowsFormsHost Height="24" HorizontalAlignment="Center" VerticalAlignment="Center" Name="TextBoxEnd"
                 Width="150"
                 Grid.Row="3" Grid.Column="2">
-            <wf:MaskedTextBox x:Name="MaskedTextBoxEnd" Mask="00:00:00.000" TextAlign="Center" Text="00:00:00.000" />
+            <wf:MaskedTextBox x:Name="MaskedTextBoxEnd" Mask="00:00:00.000" TextAlign="Center" Text="" 
+                         />
         </WindowsFormsHost>
 
         <Button Height="26" HorizontalAlignment="Center" VerticalAlignment="Center" Name="ButtonCut"

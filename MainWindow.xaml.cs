@@ -163,6 +163,19 @@ namespace LosslessCut
             e.Handled = true;
         }
 
+        private void MaskedTextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if (sender.GetType() == typeof(System.Windows.Forms.Integration.WindowsFormsHost))
+            {
+                System.Windows.Forms.Integration.WindowsFormsHost inputFormsHost = sender as System.Windows.Forms.Integration.WindowsFormsHost;
+                System.Windows.Forms.MaskedTextBox txtBox = inputFormsHost.Child as System.Windows.Forms.MaskedTextBox;
+                if (txtBox is not null)
+                {
+                    txtBox.SelectAll();
+                }
+            }
+        }
+
         /// <summary>
         /// Just Call FFmpeg with Appropriate Arguments
         /// </summary>
