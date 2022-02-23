@@ -4,6 +4,7 @@ using System.Text;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace LosslessCut
 {
@@ -19,6 +20,21 @@ namespace LosslessCut
             InitializeComponent();
             TextBoxInput.AddHandler(TextBox.DragOverEvent, new DragEventHandler(InputFile_DragOver), true);
             TextBoxInput.AddHandler(TextBox.DropEvent, new DragEventHandler(InputFile_Drop), true);
+            AddHotKeys();
+        }
+
+        private void AddHotKeys()
+        {
+            try
+            {
+                RoutedCommand cutSetting = new RoutedCommand();
+                cutSetting.InputGestures.Add(new KeyGesture(Key.X, ModifierKeys.Control));
+                CommandBindings.Add(new CommandBinding(cutSetting , CutMovie));
+            }
+            catch (Exception ex)
+            {
+                ShowException(ex);
+            }
         }
 
         /// <summary>
@@ -34,6 +50,12 @@ namespace LosslessCut
             {
                 ShowException(ex);
             }
+        }
+
+        private void Window_Deactivated(object sender, EventArgs e)
+        {
+            Window window = (Window)sender;
+            window.Topmost = true;
         }
 
         /// <summary>
@@ -121,6 +143,7 @@ namespace LosslessCut
                         ShowLog(fileNames[0] + "を読み込みました");
                     }
                 }
+                LosslessMainWindow.Activate();
             }
         }
 

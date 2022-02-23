@@ -1,4 +1,5 @@
-﻿<Window x:Class="LosslessCut.MainWindow"
+﻿<Window x:Name="LosslessMainWindow"
+        x:Class="LosslessCut.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -43,6 +44,7 @@
                 Grid.Row="0" Grid.Column="0"
                 Content="FFmpeg Path:" />
         <TextBox Height="26" Width="350" HorizontalAlignment="Left" VerticalAlignment="Center" Name="TextBoxFfmpeg"
+                TextAlignment="Left" VerticalContentAlignment="Center"
                 Grid.Row="0" Grid.Column="1" IsReadOnly="True"  IsTabStop="false" />
         <Button Height="26" HorizontalAlignment="Right" VerticalAlignment="Center" Name="ButtonFfmpeg"
                 Grid.Row="0" Grid.Column="2" IsTabStop="false"
@@ -53,14 +55,14 @@
                 Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" IsReadOnly="True"
                 AllowDrop="True" Drop="InputFile_Drop" DragOver="InputFile_DragOver"
                 TextAlignment="Center" TextWrapping="Wrap" VerticalContentAlignment="Center"
-                Name="TextBoxInput" Text="ここに動画ファイルをドラッグ &amp; ドロップ" />
+                Name="TextBoxInput" Text="ここに動画ファイルをドラッグ &amp; ドロップ\nDrag &amp; Drop a Video/Audio File Here" />
 
         <Label Height="24" HorizontalAlignment="Left" VerticalAlignment="Center" Name="LabelStart"
                 Grid.Row="2" Grid.Column="0"
-                Content="開始位置(HH:mm:ss)" />
+                Content="&lt;- 開始位置(HH:mm:ss.fff)" />
         <Label Height="24" HorizontalAlignment="Left" VerticalAlignment="Center" Name="LabelEnd"
                 Grid.Row="2" Grid.Column="2"
-                Content="終了位置(HH:mm:ss.fff)" />
+                Content="終了位置(HH:mm:ss.fff) -&gt;" />
         
         <WindowsFormsHost Height="24" HorizontalAlignment="Center" VerticalAlignment="Center" Name="TextBoxStart"
                 Width="150"
@@ -76,13 +78,13 @@
         <Button Height="26" HorizontalAlignment="Center" VerticalAlignment="Center" Name="ButtonCut"
                 Width="{Binding ElementName=Container,Path=ActualWidth}"
                 Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3"
-                Click="CutMovie" Content="カット" />
+                Click="CutMovie" Content="カット (Ctrl + X)" />
 
         <ScrollViewer Name="ScrollViewerLog" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,10,0,0">
+                Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,10,0,0" IsTabStop="false">
             <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center"
                     Height="{Binding ElementName=ScrollViewerLog,Path=ActualHeight}"
-                    Name="TextBoxLog" IsReadOnly="True" TextWrapping="Wrap" />
+                    Name="TextBoxLog" IsReadOnly="True" TextWrapping="Wrap" IsTabStop="false"/>
         </ScrollViewer>
     </Grid>
 </Window>
