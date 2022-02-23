@@ -5,6 +5,14 @@ cutting a video/audio file without loss and encoding time.
 
 ![](./gui.PNG)
 
-1. Drag&Drop a video/audio file on `[ここに動画ファイルを...]`
+## Usage
+1. Drag&Drop a video/audio file on `[ここに動画ファイルを...]` or just Press It
 2. Set Start and End Time
-3. Press `[カット]` Button
+3. Press `[カット (Ctrl + X)]` Button
+
+## Tips
+You can move your cursor with the `Tab` key between InputFile Button, StartTime Form, EndTime Form, and Cut Button.  
+`Ctrl + X` shortcut key acts as Cut Button.
+
+## Settings
+1. Set Windows "PATH" Environment Variable for `ffmpeg.exe` or to Click `[FFmpegを指定する]` to Set the FFmpeg Path Locally

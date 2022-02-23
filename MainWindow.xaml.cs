@@ -135,11 +135,11 @@ namespace LosslessCut
 
         private void SetInput(string filename)
         {
-            if (ButtonInput.Content.GetType() == typeof(string) && ButtonInput.Content as string == filename)
+            if (TextBlockInput.Text == filename)
             {
                 return;
             }
-            ButtonInput.Content = filename;
+            TextBlockInput.Text = filename;
             ShowLog(filename + "を読み込みました");
             var str = System.IO.Path.GetDirectoryName(filename);
             if (str is not null)
@@ -205,7 +205,7 @@ namespace LosslessCut
         /// </summary>
         private void CutMovie(object sender, RoutedEventArgs e)
         {
-            string inputFile = ButtonInput.Content as string;
+            string inputFile = TextBlockInput.Text;
             if (System.IO.File.Exists(inputFile))
             {
                 var dir = System.IO.Path.GetDirectoryName(inputFile);
@@ -232,7 +232,7 @@ namespace LosslessCut
                 if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     TimeSpan len = TimeSpan.Parse(MaskedTextBoxEnd.Text + "0") - TimeSpan.Parse(MaskedTextBoxStart.Text + "0");
-                    string strCmdText= @$"-y -ss {MaskedTextBoxStart.Text} -t {len.ToString()} -i {ButtonInput.Content} -c:v copy -c:a copy -async 1 {dir}\{filename}";
+                    string strCmdText= @$"-y -ss {MaskedTextBoxStart.Text} -t {len.ToString()} -i {TextBlockInput.Text} -c:v copy -c:a copy -async 1 {dir}\{filename}";
                     System.Diagnostics.Process.Start(TextBoxFfmpeg.Text, strCmdText);
                     ShowLog($"{filename}に保存しました");
                 }

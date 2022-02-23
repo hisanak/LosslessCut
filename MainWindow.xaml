@@ -13,17 +13,6 @@
         ResizeMode="CanResizeWithGrip"
         Loaded="Window_Loaded">
     <Window.Resources>
-        <!-- ボタンのスタイル -->
-        <Style TargetType="Button">
-        <Setter Property="Margin" Value="5" />
-        <Setter Property="Padding" Value="3" />
-        </Style>
-            <!-- グループ見出しのスタイル -->
-        <Style x:Key="GroupTitleStyle" TargetType="TextBlock">
-        <Setter Property="Margin" Value="5,10,5,0" />
-        <Setter Property="FontWeight" Value="Bold" />
-        <Setter Property="Foreground" Value="DarkBlue" />
-        </Style>
     </Window.Resources>
     <Grid Margin="10" Name="Container">
         <Grid.ColumnDefinitions>
@@ -55,7 +44,12 @@
                 Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
                 AllowDrop="True" Drop="InputFile_Drop" DragOver="InputFile_DragOver"
                 Click="BrowseInput"
-                Name="ButtonInput" Content="ここに動画ファイルをドラッグ &amp; ドロップ\r\nもしくはクリックしてファイルを開く" />
+                x:Name="ButtonInput">
+            <TextBlock x:Name="TextBlockInput" TextAlignment="Center">
+                ここに動画ファイルをドラッグ &amp; ドロップ (Drag &amp; Drop a Video/Audio File Here)<LineBreak/>
+                もしくはクリックしてファイルを開く (or Click Here to Open a File)
+            </TextBlock>
+        </Button>
 
         <Label Height="24" HorizontalAlignment="Left" VerticalAlignment="Center" Name="LabelStart"
                 Grid.Row="2" Grid.Column="0"
@@ -67,12 +61,12 @@
         <WindowsFormsHost Height="24" HorizontalAlignment="Center" VerticalAlignment="Center" Name="TextBoxStart"
                 Width="150"
                 Grid.Row="3" Grid.Column="0">
-            <wf:MaskedTextBox x:Name="MaskedTextBoxStart" Mask="00:00:00.000" TextAlign="Center" Text="00:00:00.000" />
+            <wf:MaskedTextBox x:Name="MaskedTextBoxStart" Mask="00:00:00.000" TextAlign="Center"/>
         </WindowsFormsHost>
         <WindowsFormsHost Height="24" HorizontalAlignment="Center" VerticalAlignment="Center" Name="TextBoxEnd"
                 Width="150"
                 Grid.Row="3" Grid.Column="2">
-            <wf:MaskedTextBox x:Name="MaskedTextBoxEnd" Mask="00:00:00.000" TextAlign="Center" Text="00:00:00.000" />
+            <wf:MaskedTextBox x:Name="MaskedTextBoxEnd" Mask="00:00:00.000" TextAlign="Center"/>
         </WindowsFormsHost>
 
         <Button Height="26" HorizontalAlignment="Center" VerticalAlignment="Center" Name="ButtonCut"
