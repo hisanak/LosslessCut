@@ -193,7 +193,7 @@ namespace LosslessCut
                 dlg.FilterIndex = 0;
                 if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    TimeSpan len = TimeSpan.Parse(MaskedTextBoxEnd.Text) - TimeSpan.Parse(MaskedTextBoxStart.Text);
+                    TimeSpan len = TimeSpan.Parse(MaskedTextBoxEnd.Text + "0") - TimeSpan.Parse(MaskedTextBoxStart.Text + "0");
                     string strCmdText= @$"-y -ss {MaskedTextBoxStart.Text} -t {len.ToString()} -i {TextBoxInput.Text} -c:v copy -c:a copy -async 1 {dir}\{filename}";
                     System.Diagnostics.Process.Start(TextBoxFfmpeg.Text, strCmdText);
                     ShowLog($"{filename}に保存しました");
