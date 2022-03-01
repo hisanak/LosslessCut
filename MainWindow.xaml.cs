@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Text.RegularExpressions;
 
 namespace LosslessCut
 {
@@ -30,6 +31,10 @@ namespace LosslessCut
                 RoutedCommand cutSetting = new RoutedCommand();
                 cutSetting.InputGestures.Add(new KeyGesture(Key.X, ModifierKeys.Control));
                 CommandBindings.Add(new CommandBinding(cutSetting , CutMovie));
+
+                RoutedCommand openSetting = new RoutedCommand();
+                openSetting.InputGestures.Add(new KeyGesture(Key.O, ModifierKeys.Control));
+                CommandBindings.Add(new CommandBinding(openSetting , BrowseInput));
             }
             catch (Exception ex)
             {
@@ -201,44 +206,90 @@ namespace LosslessCut
         }
 
         /// <summary>
+        /// Form string like "00:00:00.000"
+        /// </summary>
+        private string FormToTime(string input)
+        {
+            input = input.Replace(" ", "0");
+            input = input.PadRight(12, '0');
+            Regex reg = new Regex(@"^(\d{2}):(\d{2}):(\d{2})\.(\d{3})$");
+            Match match = reg.Match(input);
+            if (!match.Success)
+            {
+                return string.Empty;
+            }
+
+            if (!UInt32.TryParse(match.Groups[1].Value, out uint hour) ||
+                !UInt32.TryParse(match.Groups[2].Value, out uint minute) ||
+                !UInt32.TryParse(match.Groups[3].Value, out uint second) ||
+                !UInt32.TryParse(match.Groups[4].Value, out uint mills))
+            {
+                return string.Empty;
+            }
+            if (minute >= 60 || second >= 60 || mills >= 1000)
+            {
+                return string.Empty;
+            }
+            return $"{match.Groups[1]}:{match.Groups[2]}:{match.Groups[3]}.{match.Groups[4]}";
+        }
+
+        /// <summary>
         /// Just Call FFmpeg with Appropriate Arguments
         /// </summary>
         private void CutMovie(object sender, RoutedEventArgs e)
         {
             string inputFile = TextBlockInput.Text;
-            if (System.IO.File.Exists(inputFile))
+            if (!System.IO.File.Exists(inputFile))
             {
-                var dir = System.IO.Path.GetDirectoryName(inputFile);
-                var filename = System.IO.Path.GetFileName(inputFile);
-                var ext = System.IO.Path.GetExtension(inputFile);
-                if (ext is not null)
-                {
-                    int place = filename.LastIndexOf(ext);
-                    if (place >= 0)
-                    {
-                        filename = filename.Remove(place, ext.Length) + $"_Trim{ext}";
-                    }
-                }
-                else {
-                    filename += "_Trim";
-                }
+                ShowLog("動画ファイルを選択して下さい。");
+                return;
+            }
 
-                var dlg = new System.Windows.Forms.SaveFileDialog();
-                dlg.FileName = filename;
-                dlg.Filter = "すべてのファイル (*.*)|*.*";
-                dlg.Title = "ファイルを保存";
-                dlg.InitialDirectory = dir;
-                dlg.FilterIndex = 0;
-                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            var dir = System.IO.Path.GetDirectoryName(inputFile);
+            var filename = System.IO.Path.GetFileName(inputFile);
+            var ext = System.IO.Path.GetExtension(inputFile);
+            if (ext is not null)
+            {
+                int place = filename.LastIndexOf(ext);
+                if (place >= 0)
                 {
-                    TimeSpan len = TimeSpan.Parse(MaskedTextBoxEnd.Text + "0") - TimeSpan.Parse(MaskedTextBoxStart.Text + "0");
-                    string strCmdText= @$"-y -ss {MaskedTextBoxStart.Text} -t {len.ToString()} -i {TextBlockInput.Text} -c:v copy -c:a copy -async 1 {dir}\{filename}";
-                    System.Diagnostics.Process.Start(TextBoxFfmpeg.Text, strCmdText);
-                    ShowLog($"{filename}に保存しました");
+                    filename = filename.Remove(place, ext.Length) + $"_Trim{ext}";
                 }
             }
             else {
-                ShowLog("動画ファイルを選択して下さい。");
+                filename += "_Trim";
+            }
+
+            string start = FormToTime(MaskedTextBoxStart.Text);
+            if (string.IsNullOrEmpty(start))
+            {
+                ShowLog($"開始時刻が不正です: \"{MaskedTextBoxStart.Text}\"");
+                return;
+            }
+            string end = FormToTime(MaskedTextBoxEnd.Text);
+            if (string.IsNullOrEmpty(end))
+            {
+                ShowLog($"終了時刻が不正です: \"{MaskedTextBoxEnd.Text}\"");
+                return;
+            }
+            TimeSpan len = TimeSpan.Parse(end) - TimeSpan.Parse(start);
+            if (len <= TimeSpan.Zero)
+            {
+                ShowLog($"終了時刻は開始時刻より遅い必要があります: \"{start} >= {end}\"");
+                return;
+            }
+
+            var dlg = new System.Windows.Forms.SaveFileDialog();
+            dlg.FileName = filename;
+            dlg.Filter = "すべてのファイル (*.*)|*.*";
+            dlg.Title = "ファイルを保存";
+            dlg.InitialDirectory = dir;
+            dlg.FilterIndex = 0;
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string strCmdText= @$"-y -ss {start} -t {len.ToString()} -i {TextBlockInput.Text} -c:v copy -c:a copy -async 1 {dlg.FileName}";
+                System.Diagnostics.Process.Start(TextBoxFfmpeg.Text, strCmdText);
+                ShowLog($"{dlg.FileName}に保存しました");
             }
         }
 
