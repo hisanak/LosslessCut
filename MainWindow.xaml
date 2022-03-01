@@ -43,11 +43,11 @@
                 Width="{Binding ElementName=Container,Path=ActualWidth}"
                 Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
                 AllowDrop="True" Drop="InputFile_Drop" DragOver="InputFile_DragOver"
-                Click="BrowseInput"
+                Click="BrowseInput" IsTabStop="false"
                 x:Name="ButtonInput">
             <TextBlock x:Name="TextBlockInput" TextAlignment="Center">
-                ここに動画ファイルをドラッグ &amp; ドロップ (Drag &amp; Drop a Video/Audio File Here)<LineBreak/>
-                もしくはクリックしてファイルを開く (or Click Here to Open a File)
+                ここに動画ファイルをドラッグ &amp; ドロップ、もしくはクリックしてファイルを開く (Ctrl + O)<LineBreak />
+                Drag &amp; Drop a Video/Audio File Here or Click Here to Open a File (Ctrl + O)
             </TextBlock>
         </Button>
 
@@ -61,12 +61,12 @@
         <WindowsFormsHost Height="24" HorizontalAlignment="Center" VerticalAlignment="Center" Name="TextBoxStart"
                 Width="150"
                 Grid.Row="3" Grid.Column="0">
-            <wf:MaskedTextBox x:Name="MaskedTextBoxStart" Mask="00:00:00.000" TextAlign="Center"/>
+            <wf:MaskedTextBox x:Name="MaskedTextBoxStart" Mask="00:00:00.000" PromptChar="0" TextAlign="Center"/>
         </WindowsFormsHost>
         <WindowsFormsHost Height="24" HorizontalAlignment="Center" VerticalAlignment="Center" Name="TextBoxEnd"
                 Width="150"
                 Grid.Row="3" Grid.Column="2">
-            <wf:MaskedTextBox x:Name="MaskedTextBoxEnd" Mask="00:00:00.000" TextAlign="Center"/>
+            <wf:MaskedTextBox x:Name="MaskedTextBoxEnd" Mask="00:00:00.000" PromptChar="0" TextAlign="Center"/>
         </WindowsFormsHost>
 
         <Button Height="26" HorizontalAlignment="Center" VerticalAlignment="Center" Name="ButtonCut"

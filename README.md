@@ -11,8 +11,9 @@ cutting a video/audio file without loss and encoding time.
 3. Press `[カット (Ctrl + X)]` Button
 
 ## Tips
-You can move your cursor with the `Tab` key between InputFile Button, StartTime Form, EndTime Form, and Cut Button.  
+You can move your cursor with the `Tab` key between StartTime Form, EndTime Form, and Cut Button.  
 `Ctrl + X` shortcut key acts as Cut Button.
 
 ## Settings
-1. Set Windows "PATH" Environment Variable for `ffmpeg.exe` or to Click `[FFmpegを指定する]` to Set the FFmpeg Path Locally
+1. Download FFmpeg from [https://ffmpeg.org/](https://ffmpeg.org/) and Install it
+2. Set Windows "PATH" Environment Variable for `ffmpeg.exe` or to Click `[FFmpegを指定する]` to Set the FFmpeg Path Locally
