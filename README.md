@@ -5,6 +5,10 @@ cutting a video/audio file without loss and encoding time.
 
 ![](./gui.PNG)
 
+## Run
+Install .NET Runtime version 9
+https://dotnet.microsoft.com/en-us/download/dotnet/9.0
+
 ## Usage
 1. Drag&Drop a video/audio file on `[ここに動画ファイルを...]` or just Press It
 2. Set Start and End Time
@@ -17,3 +21,11 @@ You can move your cursor with the `Tab` key between StartTime Form, EndTime Form
 ## Settings
 1. Download FFmpeg from [https://ffmpeg.org/](https://ffmpeg.org/) and Install it
 2. Set Windows "PATH" Environment Variable for `ffmpeg.exe` or to Click `[FFmpegを指定する]` to Set the FFmpeg Path Locally
+
+## Build
+Install .NET SDK version 9
+https://dotnet.microsoft.com/en-us/download/dotnet/9.0
+
+```
+$ dotnet publish
+```

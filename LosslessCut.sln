@@ -1,0 +1,28 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LosslessCut", "LosslessCut.csproj", "{4B29B6B6-1925-0DB1-0735-FAB132962449}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B29B6B6-1925-0DB1-0735-FAB132962449}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B29B6B6-1925-0DB1-0735-FAB132962449}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B29B6B6-1925-0DB1-0735-FAB132962449}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B29B6B6-1925-0DB1-0735-FAB132962449}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E37F66AA-DCB2-9648-C4C1-A350EE2ED743}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E37F66AA-DCB2-9648-C4C1-A350EE2ED743}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E37F66AA-DCB2-9648-C4C1-A350EE2ED743}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E37F66AA-DCB2-9648-C4C1-A350EE2ED743}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7527B1DB-B48A-4A0A-A8EA-68A5F3042837}
+	EndGlobalSection
+EndGlobal
